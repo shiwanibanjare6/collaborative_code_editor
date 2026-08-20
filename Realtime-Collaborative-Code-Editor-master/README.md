@@ -370,14 +370,3 @@ Then open a **Pull Request** on GitHub.
 
 ---
 
-## 📄 License
-
-This project is intended for learning, experimentation, and collaborative development.
-
----
-
-## ⭐ Show Your Support
-
-If you find **Sync Code** useful or interesting, consider giving the repository a ⭐ on GitHub!
-
-**Built with ❤️ by Shiwani Banjare**
