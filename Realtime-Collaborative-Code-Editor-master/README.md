@@ -190,10 +190,4 @@ Contributions and suggestions are welcome.
 5. Commit and push your changes.
 6. Create a Pull Request.
 
-## License
 
-This project is open for learning and development purposes.
-
----
-
-**Built by Shiwani Banjare**
