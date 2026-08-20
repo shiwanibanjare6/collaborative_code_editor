@@ -101,14 +101,3 @@ http://localhost:3000
 * File upload
 * User authentication
 
-## About
-
-Built by **Shiwani Banjare**, a B.Tech student in Data Science and Artificial Intelligence at **IIIT Naya Raipur**.
-
-**GitHub:** https://github.com/shiwanibanjare6
-
-**LinkedIn:** https://www.linkedin.com/
-
----
-
-**Built with React.js, Node.js and Socket.io ❤️**
