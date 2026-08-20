@@ -1,139 +1,383 @@
-# Sync Code: Realtime Collaborative Code Editor
+# 🚀 Sync Code — Realtime Collaborative Code Editor
 
-## Introduction
+**Sync Code** is a real-time collaborative code editor that allows multiple developers to write, edit, and collaborate on code together from different devices and browser windows.
 
-Are you tired of sending code snippets back and forth, struggling to debug and collaborate with your team? Look no further! **Sync Code** is here to revolutionize the way you code together. This powerful and intuitive collaborative code editor is designed to empower developers, and teams to work seamlessly in real-time, regardless of their location. With **Sync Code**, you can code together, debug together, and ship faster, together.
+Instead of sharing code through messages or repeatedly sending files, users can join the same room and work on the same code in real time. Changes made by one user are instantly synchronized with everyone else in the room.
 
-## Features
+---
 
-- Multiple users can join a room and edit code together
-- Changes are reflected in real time
-- Copy button to copy the room id to clipboard
-- Leave button to leave the room
-- Supports syntax highlighting for different programming languages
-- Users can choose theme based on their preferences
-- Users can leave the room and rejoin later to continue editing
-- Joining & leaving of users is also reflected in real time
+## ✨ Features
+
+* 👥 **Real-Time Collaboration** — Multiple users can work on the same code simultaneously.
+* ⚡ **Instant Code Synchronization** — Changes are reflected across connected users in real time.
+* 🏠 **Room-Based Collaboration** — Create a room and share the room ID with other users.
+* 📋 **One-Click Room ID Copy** — Easily copy the room ID to your clipboard.
+* 🚪 **Join & Leave Rooms** — Users can join, leave, and rejoin collaborative sessions.
+* 👤 **Live User Presence** — Joining and leaving of users is reflected in real time.
+* 🎨 **Multiple Themes** — Choose an editor theme according to your preference.
+* 💻 **Syntax Highlighting** — Supports syntax highlighting for multiple programming languages.
+* 💾 **Persistent Preferences** — Selected language and theme can be stored in local storage.
+* 🔐 **Room Join Control** — Room owners can accept or reject users attempting to join.
+* 🔔 **Toast Notifications** — User actions and important events are communicated through notifications.
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology         | Purpose                               |
+| ------------------ | ------------------------------------- |
+| **React.js**       | Frontend user interface               |
+| **Node.js**        | Backend runtime                       |
+| **Express.js**     | Server-side application               |
+| **Socket.io**      | Real-time bidirectional communication |
+| **CodeMirror**     | Code editor and syntax highlighting   |
+| **React-Toastify** | Notifications and user feedback       |
+| **Docker**         | Application containerization          |
+| **PM2**            | Node.js process management            |
+
+---
+
+## 🏗️ How It Works
+
+The application follows a client-server architecture with **Socket.io** handling real-time communication.
+
+```text
+             ┌──────────────────┐
+             │     User A       │
+             │  Code Editor     │
+             └────────┬─────────┘
+                      │
+                      │ WebSocket
+                      ▼
+             ┌──────────────────┐
+             │   Node.js +      │
+             │   Socket.io      │
+             │     Server       │
+             └────────┬─────────┘
+                      │
+                      │ WebSocket
+                      ▼
+             ┌──────────────────┐
+             │     User B       │
+             │  Code Editor     │
+             └──────────────────┘
+```
+
+When a user edits the code:
+
+1. The editor detects the change.
+2. The client sends the update through **Socket.io**.
+3. The server receives the change.
+4. The server broadcasts the update to other users in the same room.
+5. Connected clients update their editors in real time.
+
+This allows multiple users to collaborate without manually refreshing or sharing updated files.
+
+---
+
+## 🐳 Running with Docker
 
 ### Prerequisites
 
-#### For running via Docker
+Make sure you have:
 
-- Docker (25.0.4)
-- Docker Compose (1.29.2)
+* Docker
+* Docker Compose
 
-#### For running locally
+### Using the Docker Image
 
-- Node.js (v20.11.1)
-- npm (10.2.4)
-- pm2 (5.3.1) : run `npm i -g pm2` to install pm2 globally
+Pull the pre-built Docker image:
 
-**Note:** I have used nvm (v0.39.7) to manage my node versions. View nvm official [documentation](https://github.com/nvm-sh/nvm) to install it.
-
-## Tech Stack
-
-- React.js
-- Node.js
-- Express.js
-- Socket.io
-- CodeMirror
-- React-Toastify
-
-## Installation
-
-### Running via Docker Image (highly recommended)
-
-To run the docker image, follow the steps below:
-
-1. Install [Docker](https://www.docker.com/) on your machine.
-2. Pull the docker image from the docker hub by running `docker pull mohitur/code-editor`
-3. Run the docker image by running `docker run -p 8000:8000 -p 3000:3000 -p 5000:5000 mohitur/code-editor`
-4. Go to `http://localhost:3000` to view the app
-5. Create a room by clicking on the `create new room` button and put a username of your choice
-   5 . Copy the room id by clicking on the `Copy ROOM ID` button
-6. To join as an another user open another browser/browser-window or an incognito tab and go to `http://localhost:3000`
-7. Enter the same room id to join the same room
-
-Now both your editor will be synced and you can see the changes in real time. Try opening the same room in multiple browsers/browsers-windows and see the changes.
-
-**Note:** If you are using docker in wsl2/linux then add `sudo` before the docker commands.
-
-### Running via building your own Docker Image
-
-To run the app using docker, follow the steps below:
-
-1. Install [Docker](https://www.docker.com/) on your machine.
-2. Clone the project repository and Navigate to the project directory.
-3. Also you have to change ENV values in the Dockerfile
-4. Replace your username in docker-compose.yml file.
-5. Run the Docker Compose command: `docker-compose up -d`
-6. Go to `http://localhost:3000` to view the app
-7. Follow the steps 5-7 from the [Running via Docker Image](https://github.com/Mohitur669/Realtime-Collaborative-Code-Editor?tab=readme-ov-file#running-via-docker-image) section to create and join a room
-
-### Running Locally
-
-1. Clone this repository and cd into it
-2. Run `npm install` to install the dependencies
-3. Create .env file in the root folder and copy paste the content of example.env, and add necessary credentials.
-4. To start the react app client run `npm start` in one terminal
-5. To start the server run `npm run server:dev` or `pm2 start server.js` in another terminal
-6. Go to `http://localhost:3000` to view the app
-7. Follow the steps 4-7 from the [Running via Docker Image](https://github.com/Mohitur669/Realtime-Collaborative-Code-Editor?tab=readme-ov-file#running-via-docker-image) section to create and join a room
-
-**Note:** To stop your server, press `Ctrl+c` or if you used "pm2", then use `pm2 stop server.js` in the terminal.
-
-## Project Video
-
-https://github.com/Mohitur669/Realtime-Collaborative-Code-Editor/assets/79283402/14c17cc7-d23a-4d39-8af3-ef9e9fa8ef45
-
-**Note:** If you find any bugs, create an Issue [here](https://github.com/Mohitur669/Realtime-Collaborative-Code-Editor/issues). I will try to fix it as soon as possible :) <br>
-In case you want to fix it yourself, feel free to make a pull request.
-
-## Future Scope
-
-1. [x] Added syntax highlighting for multiple languages
-2. [x] Added support for multiple themes
-3. [x] Added support for saving the last theme and language selected by the user in local storage
-4. [x] Add support to accept or reject new users trying to join the room
-5. [ ] Add to implement video and voice chat feature inside the editor
-6. [ ] Add support for local code file uploading
-
-## Open Source Contribution
-
-If you want to make contribution to this projects, follow the steps below:
-
-1. Fork this repository
-2. Clone the forked repository <br>
-
-```
-git clone https://github.com/your-github_username/Realtime-Collaborative-Code-Editor.git
+```bash
+docker pull mohitur/code-editor
 ```
 
-3. cd into the cloned repository
-4. Create a new branch <br>
+Run the container:
 
-```
-git checkout -b your_branch_name
-```
-
-5.  Make your changes
-6.  Commit and push your changes <br>
-
-```
-git add . <br>
-git commit -m "your commit message" <br>
-git push origin your_branch_name
+```bash
+docker run -p 8000:8000 -p 3000:3000 -p 5000:5000 mohitur/code-editor
 ```
 
-7. Finally, create a pull request by visiting your forked repository on GitHub
+Open the application:
 
-**Note:** Please make sure to use your own branch when contributing.
+```text
+http://localhost:3000
+```
 
-## About Me
+### Create a Collaborative Room
 
-I am Mohd Mohitur Rahaman, a tech geek, currently pursuing a Master's in Computer Applications (Final Year) from KIIT, Bhubaneswar. And with a deep passion for coding and a strong love for science & technology, I am dedicated to honing my skills and achieving proficiency as a developer.
+1. Click **Create New Room**.
+2. Enter your username.
+3. Create the room.
+4. Copy the generated **Room ID**.
+5. Open the application in another browser window or incognito tab.
+6. Enter the same Room ID.
+7. Start collaborating in real time.
 
-## Connect with me
+You can open the same room in multiple browser windows to test multi-user collaboration.
 
-- [LinkedIn](https://www.linkedin.com/in/mohitur02/)
-- [GitHub](https://www.github.com/Mohitur669/)
+---
+
+## 🐳 Build the Docker Image Yourself
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/your-repository.git
+```
+
+Navigate into the project:
+
+```bash
+cd your-repository
+```
+
+Configure the required environment variables in the Docker configuration.
+
+Then start the application:
+
+```bash
+docker-compose up -d
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## 💻 Running Locally
+
+### Prerequisites
+
+Recommended versions:
+
+* **Node.js:** v20.11.1
+* **npm:** v10.2.4
+* **PM2:** v5.3.1
+
+Install PM2 globally:
+
+```bash
+npm install -g pm2
+```
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/your-repository.git
+cd your-repository
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the root directory.
+
+Copy the required values from the provided example environment file and add the necessary credentials/configuration.
+
+### 4. Start the React Client
+
+```bash
+npm start
+```
+
+### 5. Start the Server
+
+In another terminal:
+
+```bash
+npm run server:dev
+```
+
+Alternatively, use PM2:
+
+```bash
+pm2 start server.js
+```
+
+### 6. Open the Application
+
+Visit:
+
+```text
+http://localhost:3000
+```
+
+You can now create a room and invite other users using the generated Room ID.
+
+### Stop the Server
+
+If running normally:
+
+```bash
+Ctrl + C
+```
+
+If using PM2:
+
+```bash
+pm2 stop server.js
+```
+
+---
+
+## 🧪 Testing Real-Time Collaboration
+
+To test the collaborative functionality:
+
+1. Open the application in Browser Window 1.
+2. Create a new room.
+3. Copy the Room ID.
+4. Open Browser Window 2 or an Incognito window.
+5. Join using the same Room ID.
+6. Start typing code in either editor.
+7. Verify that changes appear in the other editor instantly.
+8. Open additional browser windows to test multiple users.
+
+---
+
+## 📂 Project Structure
+
+A typical structure of the application looks like:
+
+```text
+Sync-Code/
+│
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── ...
+│   └── package.json
+│
+├── server/
+│   └── ...
+│
+├── public/
+│
+├── Dockerfile
+├── docker-compose.yml
+├── server.js
+├── package.json
+├── .env
+└── README.md
+```
+
+> The exact structure may vary depending on the implementation and project configuration.
+
+---
+
+## 🔮 Future Scope
+
+Some potential improvements for Sync Code include:
+
+* [x] Multi-language syntax highlighting
+* [x] Multiple editor themes
+* [x] Save language and theme preferences in local storage
+* [x] Accept/reject users joining a room
+* [ ] Integrated video and voice communication
+* [ ] Local code file upload
+* [ ] Code execution directly inside the editor
+* [ ] User authentication and profiles
+* [ ] Persistent cloud-based code storage
+* [ ] Collaborative cursor and selection indicators
+* [ ] Version history and code restoration
+* [ ] Integrated chat for collaborators
+* [ ] AI-powered code completion and debugging
+
+---
+
+## 🎯 Why Sync Code?
+
+Traditional collaboration often involves repeatedly sharing code through messaging applications, manually merging changes, or sending updated files.
+
+Sync Code provides a simpler workflow:
+
+```text
+Create Room
+     ↓
+Share Room ID
+     ↓
+Multiple Users Join
+     ↓
+Edit Code Together
+     ↓
+Changes Synchronize Instantly
+     ↓
+Collaborate & Ship Faster 🚀
+```
+
+The project demonstrates practical implementation of **real-time communication, WebSockets, client-server architecture, collaborative editing, and modern web development**.
+
+---
+
+## 👩‍💻 About the Developer
+
+Hi, I'm **Shiwani Banjare**, a B.Tech student specializing in **Data Science and Artificial Intelligence at IIIT Naya Raipur**.
+
+I'm interested in building software applications, AI-powered systems, and developer-focused tools while continuously improving my problem-solving and full-stack development skills.
+
+### Connect with Me
+
+* 💼 **LinkedIn:** [Shiwani Banjare](https://www.linkedin.com/)
+* 🐙 **GitHub:** [Shiwani Banjare](https://github.com/shiwanibanjare6)
+* 💻 **LeetCode:** [sims67](https://leetcode.com/)
+
+---
+
+## ⭐ Contributing
+
+Contributions, improvements, and bug fixes are welcome!
+
+### Fork the Repository
+
+```bash
+git clone https://github.com/your-username/your-repository.git
+```
+
+### Create a Branch
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+### Make Your Changes
+
+Implement your feature or fix the issue.
+
+### Commit Your Changes
+
+```bash
+git add .
+git commit -m "Add your feature"
+```
+
+### Push Your Branch
+
+```bash
+git push origin feature/your-feature-name
+```
+
+Then open a **Pull Request** on GitHub.
+
+---
+
+## 📄 License
+
+This project is intended for learning, experimentation, and collaborative development.
+
+---
+
+## ⭐ Show Your Support
+
+If you find **Sync Code** useful or interesting, consider giving the repository a ⭐ on GitHub!
+
+**Built with ❤️ by Shiwani Banjare**
